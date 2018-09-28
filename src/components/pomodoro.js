@@ -5,11 +5,28 @@ import {connect} from 'react-redux';
 import * as actions from '../actions/actions';
 
 
-export default class Pomodoro extends React.Component{
+class Pomodoro extends React.Component{
     componentWillMount(){
-        console.log('cwm');
+        const script = document.createElement("script");
+        script.src = "https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+    }
+    componentDidUpdate(){
+        console.log('running', this.props.store.isActive);
+        if(!this.props.store.startFlag && this.props.store.isActive){
+            console.log('running', this.props.store.isActive);
+            this.props.actions.handleTimer({type:'FLIP_START_FLAG'});
+            var interval = setInterval(this.props.actions.handleTimer({type:'RUN_TIMER'}),1000);            
+        }
+        
+    }
+    componentWillUnmount(){
+        console.log('sup');
     }
     render(){
+        const x = this.props.store.min + ':'+this.props.store.sec;
         return(
             <div className='App'>
                 <div className='wrapper'>
@@ -20,15 +37,15 @@ export default class Pomodoro extends React.Component{
                         <hr/>
                         <div className='session'>
                             <div className='sess label label-session' id='timer-label'>Session</div>
-                            <div className='sess timer' id='time-left'>00:00</div>
+                            <div className='sess timer' id='time-left'>{x}</div>
                         </div>
                         <hr/>
                         <div className='controls'>
-                            <button className='btn btn-control start_stop' id='start_stop'>
+                            <button onClick={this.props.actions.handleClick} className='btn btn-control start_stop' id='start_stop'>
                                 <i className='fas fa-2x fa-play'></i>
                                 <i className='fas fa-2x fa-pause'></i>
                             </button>
-                            <button className='btn btn-control reset' id='reset'>
+                            <button onClick={this.props.actions.handleClick} className='btn btn-control reset' id='reset'>
                                 <i className='fas fa-2x fa-redo-alt'></i>
                             </button>
                         </div>
@@ -37,24 +54,24 @@ export default class Pomodoro extends React.Component{
                             <div className='setting break-setting'>
                                 <div className='label label-break-length' id='break-label'>Break Length</div>
                                 <div className='break-panel'>
-                                    <button className='btn btn-break inc ' id='break-increment'>
+                                    <button onClick={this.props.actions.handleClick} className='btn btn-break inc ' id='break-increment'>
                                         <i className='fas fa-4x fa-caret-up'></i>
                                     </button>
-                                    <p className='break-value value' id='break-length'>5</p>
-                                    <button className='btn btn-break dec' id='break-decrement'>
+                                    <p className='break-value value' id='break-length'>{this.props.store.breakLength}</p>
+                                    <button onClick={this.props.actions.handleClick} className='btn btn-break dec' id='break-decrement'>
                                         <i className='fas fa-4x fa-caret-down'></i>
                                     </button>
                                 </div>
                             </div>
-                            <div class='setting vl'></div>
+                            <div className='setting vl'></div>
                             <div className='setting session-setting'>
                                 <div className='label label-session-length' id='session-label'>Session Length</div>
                                 <div className='session-panel'>
-                                    <button className='btn btn-session inc' id='session-increment'>
+                                    <button onClick={this.props.actions.handleClick} className='btn btn-session inc' id='session-increment'>
                                         <i className='fas fa-4x fa-caret-up'></i>
                                     </button>
-                                    <p className='session-value value' id='session-length'>25</p>
-                                    <button className = 'btn btn-session dec' id = 'session-decrement'>
+                                    <p className='session-value value' id='session-length'>{this.props.store.sessionLength}</p>
+                                    <button onClick={this.props.actions.handleClick} className = 'btn btn-session dec' id = 'session-decrement'>
                                         <i className='fas fa-4x fa-caret-down'></i>
                                     </button>
                                 </div>
@@ -75,3 +92,12 @@ export default class Pomodoro extends React.Component{
     }
 }
 
+function mapStateToProps(state){
+    return {store:state.reducer};
+}
+
+function mapDispatchToProps(dispatch){
+    return {actions:bindActionCreators(actions,dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pomodoro);
