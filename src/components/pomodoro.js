@@ -13,19 +13,12 @@ class Pomodoro extends React.Component{
         document.body.appendChild(script);
 
     }
-    componentDidUpdate(){
-        console.log('running', this.props.store.isActive);
-        if(!this.props.store.startFlag && this.props.store.isActive){
-            console.log('running', this.props.store.isActive);
-            this.props.actions.handleTimer({type:'FLIP_START_FLAG'});
-            var interval = setInterval(this.props.actions.handleTimer({type:'RUN_TIMER'}),1000);            
-        }
-        
-    }
     componentWillUnmount(){
         console.log('sup');
     }
     render(){
+       
+
         const x = this.props.store.min + ':'+this.props.store.sec;
         return(
             <div className='App'>
