@@ -16,8 +16,14 @@ class Pomodoro extends React.Component{
     componentWillUnmount(){
         console.log('sup');
     }
+    componentWillUpdate = (nextProps, nextState) => {
+      console.log('cwup',nextProps,nextState);
+    }
+    
     render(){
        
+        //TODO Implement this tricky double digit appensions to the sub deca values of both min and sec
+        //*Tried to implement this in the reducer with partial success
 
         const x = this.props.store.min + ':'+this.props.store.sec;
         return(
@@ -29,7 +35,7 @@ class Pomodoro extends React.Component{
                         </div>
                         <hr/>
                         <div className='session'>
-                            <div className='sess label label-session' id='timer-label'>Session</div>
+                            <div className='sess label label-session' id='timer-label'>{this.props.store.session}</div>
                             <div className='sess timer' id='time-left'>{x}</div>
                         </div>
                         <hr/>

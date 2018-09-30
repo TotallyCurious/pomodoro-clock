@@ -1,6 +1,7 @@
 export default {
-    min:'25',
-    sec:'00',
+    session:'session',
+    min:'0',
+    sec:'5',
     startFlag:false,
     resetFlag:true,
     breakLength:5,
