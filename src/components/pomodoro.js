@@ -6,6 +6,10 @@ import * as actions from '../actions/actions';
 
 
 class Pomodoro extends React.Component{
+    constructor(props){
+        super(props);
+        this.stopAudio = this.stopAudio.bind(this);
+    }
     componentWillMount(){
         const script = document.createElement("script");
         script.src = "https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js";
@@ -13,19 +17,25 @@ class Pomodoro extends React.Component{
         document.body.appendChild(script);
 
     }
-    componentWillUnmount(){
-        console.log('sup');
-    }
-    componentWillUpdate = (nextProps, nextState) => {
-      console.log('cwup',nextProps,nextState);
+    stopAudio(){
+        this.props.actions.handleClick({currentTarget:{id:'reset'}});
+        const z = document.getElementById('beep');
+        z.pause();
+        z.currentTime = 0;
     }
     
     render(){
-       
-        //TODO Implement this tricky double digit appensions to the sub deca values of both min and sec
-        //*Tried to implement this in the reducer with partial success
 
         const x = this.props.store.min + ':'+this.props.store.sec;
+        
+        const y = document.getElementById('beep');
+        if(this.props.store.min==0 && this.props.store.sec==0){
+            y.play();
+            setTimeout(() => {
+                y.pause();
+                y.currentTime=0;
+            }, 2800);
+        }
         return(
             <div className='App'>
                 <div className='wrapper'>
@@ -44,7 +54,7 @@ class Pomodoro extends React.Component{
                                 <i className='fas fa-2x fa-play'></i>
                                 <i className='fas fa-2x fa-pause'></i>
                             </button>
-                            <button onClick={this.props.actions.handleClick} className='btn btn-control reset' id='reset'>
+                            <button onClick={this.stopAudio} className='btn btn-control reset' id='reset'>
                                 <i className='fas fa-2x fa-redo-alt'></i>
                             </button>
                         </div>
@@ -80,8 +90,9 @@ class Pomodoro extends React.Component{
                             <p>Coded by <a target="blank"href='https://www.github.com/TotallyCurious/'>TotallyCurious</a></p>
                         </div>
                         <div className='audio-container'>
-                            <audio controls className='audio' id='beep'>
-                                <source src="" type=""></source>
+                            <audio controls className='audio' id='beep' ref='beeper' preload='auto'>
+                                <source src="https://res.cloudinary.com/totallycurious/video/upload/v1538629021/audio/pomodoro/Fire_pager-jason-1283464858.wav" type="audio/wav"></source>
+                                <source src="https://res.cloudinary.com/totallycurious/video/upload/v1538629078/audio/pomodoro/Fire_pager-jason-1283464858mp3.mp3" type="audio/mp3"></source>
                             </audio>
                         </div>
                     </div>
