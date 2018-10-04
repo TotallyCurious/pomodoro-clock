@@ -46,9 +46,7 @@ body{
 .label-session{
   font-size: 1.1em;
   margin-top:5px;
-  margin-right: 40px;
   color: rgb(120, 120, 130);
-  /* font-weight: 300; */
   font-family: 'Maven Pro', sans-serif;
 }
 .settings .label{
@@ -126,4 +124,30 @@ audio{
 a{
   text-decoration: none;
   color: inherit;
+}
+
+.palette{
+  width:40px;
+  height:120px;
+  position: fixed;
+  left:58.2%;
+  top:25vh;
+  background-color:grey;
+  ;
+}
+.tile{
+  width:36px;
+  height:36px;
+  margin:2.5px;
+}
+#green{
+  background-color: greenyellow;
+}
+#blue{
+  background-color: darkcyan;
+  
+}
+#red{
+  background-color: crimson;
+
 }

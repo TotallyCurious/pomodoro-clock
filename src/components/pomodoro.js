@@ -38,7 +38,8 @@ class Pomodoro extends React.Component{
         }
         return(
             <div className='App'>
-                <div className='wrapper'>
+                <div className='wrapper'>                        
+
                     <div className='pomodoro'>
                         <div className='title'>
                             <h1>Pomodoro Clock</h1>
@@ -49,6 +50,11 @@ class Pomodoro extends React.Component{
                             <div className='sess timer' id='time-left'>{x}</div>
                         </div>
                         <hr/>
+                <div className='palette'>
+                    <div class='tile'id='blue'></div>
+                    <div class='tile'id='green'></div>
+                    <div class='tile'id='red'></div>
+                </div>
                         <div className='controls'>
                             <button onClick={this.props.actions.handleClick} className='btn btn-control start_stop' id='start_stop'>
                                 <i className='fas fa-2x fa-play'></i>
